@@ -9,16 +9,21 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonTypeName("car")
-@Builder
-public class CarDto implements Collateral {
+@JsonTypeName("airplane")
+public class AirplaneDto implements Collateral {
     private Long id;
     private String brand;
     private String model;
-    private Double power;
     private Short year;
+
+    private String manufacturer;
+
+    private Integer fuelCapacity;
+
+    private Integer seats;
 
     private List<MarkDTO> values;
 }

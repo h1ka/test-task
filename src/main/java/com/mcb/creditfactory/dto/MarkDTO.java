@@ -6,19 +6,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonTypeName("car")
+@JsonTypeName("value")
 @Builder
-public class CarDto implements Collateral {
-    private Long id;
-    private String brand;
-    private String model;
-    private Double power;
-    private Short year;
+public class MarkDTO {
 
-    private List<MarkDTO> values;
+    private LocalDateTime createDateTime;
+
+    private BigDecimal value;
 }

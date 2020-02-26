@@ -1,20 +1,24 @@
 package com.mcb.creditfactory.service.car;
 
 import com.mcb.creditfactory.dto.CarDto;
+import com.mcb.creditfactory.dto.MarkDTO;
 import com.mcb.creditfactory.external.ExternalApproveService;
 import com.mcb.creditfactory.model.Car;
+import com.mcb.creditfactory.model.Mark;
 import com.mcb.creditfactory.repository.CarRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class CarServiceImpl implements CarService {
-    @Autowired
+
     private ExternalApproveService approveService;
 
-    @Autowired
     private CarRepository carRepository;
 
     @Override
@@ -34,26 +38,30 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car fromDto(CarDto dto) {
-        return new Car(
-                dto.getId(),
-                dto.getBrand(),
-                dto.getModel(),
-                dto.getPower(),
-                dto.getYear(),
-                dto.getValue()
-        );
+        return Car.builder()
+                .brand(dto.getBrand())
+                .id(dto.getId())
+                .model(dto.getModel())
+                .power(dto.getPower())
+                .marks(dto.getValues().stream()
+                        .map(v -> Mark.builder()
+                                .createDateTime(v.getCreateDateTime())
+                                .value(v.getValue()).build()
+                        ).collect(Collectors.toList()))
+                .year(dto.getYear())
+                .build();
     }
 
     @Override
     public CarDto toDTO(Car car) {
-        return new CarDto(
-                car.getId(),
-                car.getBrand(),
-                car.getModel(),
-                car.getPower(),
-                car.getYear(),
-                car.getValue()
-        );
+        return CarDto.builder()
+                .brand(car.getBrand())
+                .id(car.getId())
+                .model(car.getModel())
+                .power(car.getPower())
+                .values(car.getMarks().stream().map(c -> MarkDTO.builder().createDateTime(c.getCreateDateTime()).value(c.getValue()).build()).collect(Collectors.toList()))
+                .year(car.getYear())
+                .build();
     }
 
     @Override

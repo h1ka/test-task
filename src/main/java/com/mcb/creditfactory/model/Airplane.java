@@ -1,5 +1,6 @@
 package com.mcb.creditfactory.model;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,22 +10,27 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-@Entity
 @Builder
-@Table(name = "CAR")
-public class Car implements EntityModel {
+@AllArgsConstructor
+@Table(name = "AIRPLANE")
+public class Airplane implements EntityModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String brand;
     private String model;
-    private Double power;
+    private String manufacturer;
 
     @Column(name = "year_of_issue")
     private Short year;
+
+    @Column(name = "fuel_capacity")
+    private Integer fuelCapacity;
+
+    private Integer seats;
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Mark> marks = new ArrayList<>();
